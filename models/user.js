@@ -1,25 +1,24 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema
+var Schema = mongoose.Schema;
 
 var User = new Schema({
   group: {
     type: String,
-    enum: ['student','staff']
+    enum: ['student', 'staff']
   },
-  name:String,
+  name: String,
   email: {
-    type: String, required: true, trim: true
+    type: String,
+    required: true,
+    trim: true
   },
-  reviewsMade:{
+  reviewsMade: {
     type: String
   },
-  ratings: {
-    type: String,
-    class: {
-      type: String,
-      enum: ['plus','delta']
-    }
-  }
+  reviews: {
+    type: String
+  },
+  course: String
 });
 
 User.path('email').validate(email => {
