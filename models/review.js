@@ -11,7 +11,11 @@ var Review = new Schema({
     type: String,
     enum: ['plus', 'delta']
   },
-  course: { type: String, required: true }
+  course: { type: String, required: true },
+  blurred: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model('Review', Review);
