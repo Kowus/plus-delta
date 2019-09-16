@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+const debug = require('debug')('plus-delta:user.model');
+const securePassword = require('secure-password');
+const pwd = new securePassword();
 
 var User = new Schema({
   group: {
@@ -18,6 +21,7 @@ var User = new Schema({
   reviews: {
     type: String
   },
+  password: Buffer,
   course: String
 });
 
