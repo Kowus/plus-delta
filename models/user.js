@@ -15,12 +15,15 @@ var User = new Schema({
     required: true,
     trim: true
   },
-  reviewsMade: {
-    type: String
-  },
+  reviewsMade: [
+    {
+      type: String
+    }
+  ],
   reviews: {
     type: String
   },
+  id: String,
   password: Buffer,
   course: String
 });
