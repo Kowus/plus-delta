@@ -19,7 +19,8 @@ var Review = new Schema(
     },
     votes: [
       {
-        user: { type: String }
+        user: { type: String },
+        up: Boolean
       }
     ]
   },
@@ -37,7 +38,7 @@ Review.virtual('owner', {
 
 // populate with 'owner' field
 Review.virtual('program', {
-  ref: 'User',
+  ref: 'Course',
   localField: 'course',
   foreignField: 'id',
   justOne: true
