@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const debug = require('debug')('plus-delta:user.model');
 const securePassword = require('secure-password');
+const { parallel } = require('async');
+const secureToken = require('secure-token');
 const pwd = new securePassword();
 
 var User = new Schema({
@@ -23,9 +25,11 @@ var User = new Schema({
   reviews: {
     type: String
   },
-  id: String,
+  id: { type: String, trim: true },
   password: Buffer,
-  course: String
+  roll_no: { type: Number },
+  course: String,
+  class: String
 });
 
 User.path('email').validate(email => {
@@ -39,15 +43,37 @@ User.path('email').validate(email => {
 
 User.pre('save', function(next) {
   let user = this;
-  if (this.isModified('password') || this.isNew) {
-    let userPassword = Buffer.from(user.password);
-    pwd.hash(userPassword, (err, hash) => {
+
+  parallel(
+    [
+      cb => {
+        if (user.isModified('password') || user.isNew) {
+          let userPassword = Buffer.from(user.password);
+          pwd.hash(userPassword, (err, hash) => {
+            if (err) return cb(err);
+            user.password = hash;
+            return cb();
+          });
+        }
+      },
+      cb => {
+        if (user.isNew) {
+          // assign id to user
+          try {
+            user.id = String(secureToken.create(), 'base64');
+            return cb();
+          } catch (err) {
+            cb(err);
+          }
+        }
+      }
+    ],
+    (err, results) => {
       if (err) return next(err);
-      user.password = hash;
       return next();
-    });
-  }
-  return next();
+    }
+  );
+  // return next();
 });
 
 User.methods.comparePassword = function(password, cb) {

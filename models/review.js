@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var Review = new Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: true, trim: true },
     resolved: Boolean,
     postedBy: String,
     date: { type: Date, default: Date.now },
@@ -12,14 +12,14 @@ var Review = new Schema(
       type: String,
       enum: ['plus', 'delta']
     },
-    course: { type: String, required: true },
+    course: { type: String, required: true, trim: true },
     blurred: {
       type: Boolean,
       default: false
     },
     votes: [
       {
-        user: { type: String },
+        user: { type: String, trim: true },
         up: Boolean
       }
     ]
