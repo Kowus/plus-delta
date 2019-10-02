@@ -9,7 +9,7 @@ const pwd = new securePassword();
 var User = new Schema({
   group: {
     type: String,
-    enum: ['student', 'staff'],
+    enum: ['student', 'staff', 'admin'],
     default: 'student'
   },
   name: String,
@@ -21,7 +21,8 @@ var User = new Schema({
   },
   reviewsMade: [
     {
-      type: String
+      type: Schema.Types.ObjectId,
+      ref: 'Review'
     }
   ],
   /*

@@ -1,53 +1,36 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Course = new Schema(
-  {
-    id: {
-      type: String,
-      trim: true
-    },
-    title: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    code: { type: String },
-    teachers: [
-      {
-        user: { type: Schema.Types.ObjectId, ref: 'User' },
-        main: { type: Boolean, default: false }
-      }
-    ],
-    reviews: [
-      {
-        type: String
-      }
-    ],
-    class: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Class'
-      }
-    ]
+var Course = new Schema({
+  id: {
+    type: String,
+    trim: true
   },
-  {
-    toObject: { virtuals: true }
-  }
-);
-
-Course.virtual('ratings', {
-  ref: 'Review',
-  localField: 'reviews',
-  foreignField: 'id',
-  justOne: true
-});
-
-Course.virtual('students', {
-  ref: 'User',
-  localField: 'class',
-  foreignField: 'id',
-  justOne: true
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  department: { type: Schema.Types.ObjectId, ref: 'Department' },
+  code: { type: String },
+  teachers: [
+    {
+      user: { type: Schema.Types.ObjectId, ref: 'User' },
+      main: { type: Boolean, default: false }
+    }
+  ],
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review'
+    }
+  ],
+  class: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Class'
+    }
+  ]
 });
 
 module.exports = mongoose.model('Course', Course);

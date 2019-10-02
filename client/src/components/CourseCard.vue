@@ -8,11 +8,10 @@
         </small>
       </h4>
       <hr />
-      <p
+      <!-- <p
         class="card-text"
-      >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <!-- <a href="#" class="card-link text-white">Card link</a> -->
-      <router-link to="/">
+      >Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+      <router-link to="/" class="float-right">
         <span class="badge badge-light">
           Go to class
           <sup class="bdg" title="3 reviews">3</sup>

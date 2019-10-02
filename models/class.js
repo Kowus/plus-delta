@@ -6,6 +6,6 @@ var ClassSchema = new Schema({
     type: String,
     required: true
   },
-  codes
+  codes: String
 });
 module.exports = mongoose.model('Class', ClassSchema);

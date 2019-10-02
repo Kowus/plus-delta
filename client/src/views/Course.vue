@@ -19,7 +19,7 @@
       <h1 class="display-3 text-left">Courses</h1>
       <hr class="my-4" />
       <div class="row text-left">
-        <CourseCard v-for="item in [1,2,3,4,5]" :item="item" :key="item" :bind="item" />
+        <CourseCard v-for="item in [0,1,2,3,4,5]" :item="item" :key="item" :bind="item" />
       </div>
     </div>
   </div>
