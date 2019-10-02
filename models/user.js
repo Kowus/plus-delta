@@ -9,29 +9,37 @@ const pwd = new securePassword();
 var User = new Schema({
   group: {
     type: String,
-    enum: ['student', 'staff']
+    enum: ['student', 'staff'],
+    default: 'student'
   },
   name: String,
   email: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    unique: true
   },
   reviewsMade: [
     {
       type: String
     }
   ],
+  /*
   reviews: {
     type: String
-  },
-  id: { type: String, trim: true },
+  },*/
+  id: { type: String, trim: true, unique: true },
   password: Buffer,
-  roll_no: { type: Number },
-  course: String,
+  roll_no: { type: Number, unique: true },
+  courses: [{ type: String }],
   class: String
 });
-
+User.virtual('reviews', {
+  ref: 'Review',
+  localField: 'reviewsMade',
+  foreignField: 'id',
+  justOne: true
+});
 User.path('email').validate(email => {
   var split = email.split('@');
   var dom = split[1].toString();

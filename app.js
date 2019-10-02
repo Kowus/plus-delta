@@ -34,8 +34,13 @@ app.use(passport.initialize());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-module.exports = app;
 // MONGOOSE DEFAULTS
+mongoose.connection.once('open', function() {
+  debug('MongoDB connection opened!');
+});
+mongoose.connection.on('reconnected', function() {
+  debug('MongoDB reconnected!');
+});
 mongoose.connection.on('connected', function() {
   debug('Mongoose default connection connected');
 });
@@ -45,9 +50,18 @@ mongoose.connection.on('error', function(err) {
 mongoose.connection.on('disconnected', function() {
   debug('Mongoose default connection disconnected');
 });
+
+mongoose.connection.on('reconnectFailed', () => {
+  process.nextTick(() => {
+    throw new Error('Mongoose could not reconnect to MongoDB server');
+  });
+});
+
 process.on('SIGINT', function() {
   mongoose.connection.close(function() {
     debug('Mongoose default connection disconnected on app termination');
     process.exit(0);
   });
 });
+
+module.exports = app;

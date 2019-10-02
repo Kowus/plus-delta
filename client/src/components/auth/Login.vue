@@ -1,6 +1,6 @@
 <template>
   <form class="text-left">
-    <div class="form-group">
+    <div class="form-group" v-if="!isQuerying">
       <div class="alert alert-dismissible alert-danger" v-if=" login_errors.message">
         <button type="button" class="close" data-dismiss="alert" @click="login_errors={}">&times;</button>
         <strong>Oh snap!</strong>
@@ -28,12 +28,12 @@
         @keyup.13="login"
       />
     </div>
-    <fieldset class="text-right">
+    <fieldset class="text-right" v-if="!isQuerying">
       <button type="button" class="btn btn-primary" @click.prevent="login">
         <i class="fas fa-paper-plane"></i> Submit
       </button>
     </fieldset>
-    <p class="text-center">
+    <p class="text-center" v-if="!isQuerying">
       Not a member?
       <router-link to="/auth/register">Register</router-link>
     </p>
@@ -55,11 +55,13 @@ export default {
         password: ""
       },
       withQuery: "",
-      login_errors: {}
+      login_errors: {},
+      isQuerying: false
     };
   },
   methods: {
     login() {
+      this.isQuerying = true;
       this.$http
         .post("/login", this.user)
         .then(res => {
@@ -68,12 +70,14 @@ export default {
             moment().add(6, "h"),
             res.data.user
           );
+          this.isQuerying = false;
           if (this.$route.query.redirect)
             return this.$router.push(this.$route.query.redirect);
           return this.$router.push("/");
         })
         .catch(err => {
           this.login_errors = err.data;
+          this.isQuerying = false;
         });
     }
   }

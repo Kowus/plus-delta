@@ -10,9 +10,7 @@
     </button>
 
     <div class="row">
-      
-        <StickyNote v-for="note in getReviews" :note="note" :bind="note" :key="note._id" />
-      
+      <StickyNote v-for="note in getReviews" :note="note" :bind="note" :key="note._id" />
       {{getCurEdit}}
     </div>
   </div>

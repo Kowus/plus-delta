@@ -12,6 +12,7 @@ var Course = new Schema(
       required: true,
       trim: true
     },
+    code: { type: String },
     teachers: [
       {
         user: { type: Schema.Types.ObjectId, ref: 'User' },

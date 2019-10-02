@@ -53,5 +53,10 @@ export default new Router({
         },
       ],
     },
+    {
+      path: '/courses',
+      name: 'courses',
+      component: () => import('./views/Course.vue'),
+    },
   ],
 });
